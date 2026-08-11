@@ -1,0 +1,22 @@
+services:
+  pioneer_noetic:
+    build: .
+    container_name: robot_ros1_pioneer
+
+    tty: true
+    stdin_open: true
+    
+    network_mode: "host"
+    ipc: "host"
+    privileged: true
+    restart: unless-stopped
+    
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    
+    volumes:
+      - ${HOME}/ros1_ws:/ros1_ws
+      - ${HOME}/.gitconfig:/root/.gitconfig:ro
+      - /dev:/dev
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
