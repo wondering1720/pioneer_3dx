@@ -6,6 +6,8 @@ FROM osrf/ros:noetic-desktop-full
 RUN apt-get update && apt-get install -y --no-install-recommends \
     usbutils \
     x11-apps \
+    nano \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Paquetes oficiales para el robot Pioneer 3-DX (Driver p2os)
@@ -16,18 +18,34 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-noetic-p2os-launch \
     && rm -rf /var/lib/apt/lists/*
 
+# Paquetes para visualización e interfaz de articulaciones (RViz / TF)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-noetic-joint-state-publisher-gui \
+    && rm -rf /var/lib/apt/lists/*
+
 # Paquetes para el uso de joysticks (Controles Xbox/Gamesir)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-noetic-joy \
     ros-noetic-teleop-twist-joy \
+    ros-noetic-teleop-twist-keyboard \
+    && rm -rf /var/lib/apt/lists/*
+    
+# Drivers de Kinect v1 (freenect) y procesamiento de nubes de puntos / imágenes
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libfreenect-bin \
+    libfreenect-dev \
+    ros-noetic-image-transport \
+    ros-noetic-cv-bridge \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-colcon-common-extensions \
-    && rm -rf /var/lib/apt/lists/*   
+# Instalación de librerías de Inteligencia Artificial / Visión (YOLO y PyTorch)
+RUN pip3 install --no-cache-dir \
+    ultralytics \
+    opencv-python-headless
 
 # Configuraciones ligeras (Variables de entorno y Source)
 RUN echo "source /opt/ros/noetic/setup.bash" >> /root/.bashrc
+RUN echo "if [ -f /ros1_ws/devel/setup.bash ]; then source /ros1_ws/devel/setup.bash; fi" >> /root/.bashrc
 
 # Directorio de trabajo
 WORKDIR /ros1_ws

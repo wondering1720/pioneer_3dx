@@ -3,6 +3,8 @@ services:
     build: .
     container_name: robot_ros1_pioneer
 
+    user: "1000:1000"
+
     tty: true
     stdin_open: true
     
@@ -20,3 +22,11 @@ services:
       - ${HOME}/.gitconfig:/root/.gitconfig:ro
       - /dev:/dev
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

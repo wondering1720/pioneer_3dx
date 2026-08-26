@@ -1,0 +1,19 @@
+<launch>
+  <!-- Remapeo global del tópico antes de lanzar los nodos -->
+  <remap from="/pioneer/cmd_vel" to="/cmd_vel"/>
+
+  <!-- Carga el mundo vacío de Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+
+  <!-- Carga la descripción URDF del Pioneer -->
+  <include file="$(find p2os_urdf)/launch/upload_pioneer3dx.xml"/>
+
+  <!-- Publica las transformaciones cinemáticas (TF) -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="30.0"/>
+  </node>
+
+  <!-- Inyecta el robot en Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+        args="-param robot_description -urdf -model pioneer3dx"/>
+</launch>
