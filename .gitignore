@@ -1,0 +1,50 @@
+# ==========================================
+# Entornos Virtuales de Python
+# ==========================================
+.env/
+.venv/
+env/
+venv/
+ENV/
+
+# ==========================================
+# Archivos de caché de Python y C++
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+.pytest_cache/
+
+# ==========================================
+# ROS 1 (Espacio de trabajo Catkin)
+# ==========================================
+build/
+devel/
+install/
+.catkin_workspace
+*.launchclear
+
+# ==========================================
+# Inteligencia Artificial / Visión (YOLO)
+# ==========================================
+# Ignorar modelos pesados preentrenados (pesos)
+*.pt
+*.pth
+*.weights
+# Ignorar carpetas de resultados de inferencia de YOLO
+runs/
+
+# ==========================================
+# Entornos de desarrollo y editores
+# ==========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ==========================================
+# Archivos temporales de Docker y del sistema
+# ==========================================
+.DS_Store
+.dockerignore

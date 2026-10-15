@@ -5,8 +5,10 @@
   <!-- Carga el mundo vacío de Gazebo -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
 
-  <!-- Carga la descripción URDF del Pioneer -->
-  <include file="$(find p2os_urdf)/launch/upload_pioneer3dx.xml"/>
+<!-- Convierte el archivo Xacro a URDF y lo carga en el parametro robot_description -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find pioneer_3dx)/urdf/pioneer_camara.xacro'" />
+
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
 
   <!-- Publica las transformaciones cinemáticas (TF) -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">

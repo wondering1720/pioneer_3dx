@@ -3,7 +3,7 @@ services:
     build: .
     container_name: robot_ros1_pioneer
 
-    user: "1000:1000"
+    #user: "1000:1000"
 
     tty: true
     stdin_open: true

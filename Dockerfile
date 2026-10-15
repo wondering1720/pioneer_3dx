@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Paquetes para el uso de joysticks (Controles Xbox/Gamesir)
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-noetic-usb-cam \    
     ros-noetic-joy \
     ros-noetic-teleop-twist-joy \
     ros-noetic-teleop-twist-keyboard \
@@ -38,10 +39,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-noetic-cv-bridge \
     && rm -rf /var/lib/apt/lists/*
 
+# Dependencias gráficas para OpenCV
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
 # Instalación de librerías de Inteligencia Artificial / Visión (YOLO y PyTorch)
 RUN pip3 install --no-cache-dir \
     ultralytics \
-    opencv-python-headless
+    opencv-python
+
 
 # Configuraciones ligeras (Variables de entorno y Source)
 RUN echo "source /opt/ros/noetic/setup.bash" >> /root/.bashrc

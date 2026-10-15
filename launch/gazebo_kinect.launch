@@ -1,0 +1,21 @@
+<launch>
+  <!-- Remapeo global del tópico antes de lanzar los nodos -->
+  <remap from="/pioneer/cmd_vel" to="/cmd_vel"/>
+
+  <!-- Carga el mundo vacío de Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+
+<!-- Convierte el archivo Xacro a URDF y lo carga en el parametro robot_description -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find pioneer_3dx)/urdf/pioneer_kinect.xacro'" />
+
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
+
+  <!-- Publica las transformaciones cinemáticas (TF) -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="30.0"/>
+  </node>
+
+  <!-- Inyecta el robot en Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+        args="-param robot_description -urdf -model pioneer3dx"/>
+</launch>

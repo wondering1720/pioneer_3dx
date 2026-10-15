@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="pioneer3dx_kinect">
+
+  <!-- 1. Importar el robot Pioneer 3-DX completo -->
+  <xacro:include filename="$(find p2os_urdf)/defs/pioneer3dx.xacro"/>
+
+  <!-- 2. Crear la pieza de la cámara (Kinect virtual) -->
+  <link name="camera_link">
+    <visual>
+      <geometry>
+        <box size="0.05 0.2 0.05"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- 3. Atornillar la cámara a la placa superior del Pioneer (top_plate) -->
+  <joint name="camera_joint" type="fixed">
+    <parent link="top_plate"/>
+    <child link="camera_link"/>
+    <origin xyz="0.1 0 0.05" rpy="0 0 0"/> 
+  </joint>
+
+  <!-- 4. Plugin de Gazebo para generar el video virtual -->
+  <gazebo reference="camera_link">
+    <sensor type="camera" name="kinect_camera">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>kinect</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>
