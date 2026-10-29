@@ -115,7 +115,7 @@ rosrun usb_cam usb_cam_node _video_device:=/dev/video0 _pixel_format:=mjpeg _ima
 
 ```
 
-Para visualizar lo que captura la cámara sin activar los motores del robot, usa el script de pruebas parametrizado:
+Para visualizar lo que captura la cámara, usa el script de pruebas parametrizado:
 
 ```bash
 rosrun pioneer_3dx pruebas.py

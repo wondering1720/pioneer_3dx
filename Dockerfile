@@ -37,6 +37,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfreenect-dev \
     ros-noetic-image-transport \
     ros-noetic-cv-bridge \
+    ros-noetic-rgbd-launch \
     && rm -rf /var/lib/apt/lists/*
 
 # Dependencias gráficas para OpenCV

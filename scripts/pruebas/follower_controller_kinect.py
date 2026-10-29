@@ -17,6 +17,7 @@ class KinectFollower:
         self.cmd_pub = rospy.Publisher("/cmd_vel", Twist, queue_size=10)
         self.twist = Twist()
         
+        self.kp = 0.003
         rospy.on_shutdown(self.stop_robot)
         rospy.loginfo(f"Iniciando seguidor Kinect. Escuchando video en: {topic_name}")
 
@@ -63,7 +64,7 @@ class KinectFollower:
                         self.twist.linear.x = 0.2
                         print("Avanzando hacia el objetivo...")
                         
-                    self.twist.angular.z = -float(error_x) / 1000.0
+                    self.twist.angular.z = -float(error_x) * self.kp
                     ball_found = True
                     
                     cv2.circle(cv_image, (cx, int(M['m01']/M['m00'])), 10, (0,0,255), -1)
